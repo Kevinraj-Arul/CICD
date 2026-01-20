@@ -1,0 +1,52 @@
+name: sample-poc
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+defaults:
+  run:
+    working-directory: .
+jobs:
+  validate:
+    name: Validate databricks asset bundle
+    runs-on: ubuntu-latest
+    env:
+      BUNDLE_VAR_DATABRICKS_CLIENT_ID: "e4151fa7-20c7-43ce-880a-b0af1577b0f5"
+      DATABRICKS_CLIENT_ID: "e4151fa7-20c7-43ce-880a-b0af1577b0f5"
+      DATABRICKS_BUNDLE_ENV: dev
+      DATABRICKS_CLIENT_SECRET: "dose692ec32f4418d649cce272f32554389d"
+      DATABRICKS_HOST: https://adb-7405616596195493.13.azuredatabricks.net/
+    continue-on-error: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Setup Databricks CLI
+        uses: databricks/setup-cli@main
+      - name: Ensure .py files are Databricks notebooks
+        shell: pwsh
+        run: |
+          Get-ChildItem -Path "${{ github.workspace }}" -Filter "*.py" -Recurse | ForEach-Object {
+            ("# Databricks notebook source`n" + (Get-Content $_.FullName -Raw)) | Set-Content $_.FullName
+          }
+      - name: Validate bundle
+        run: databricks bundle validate
+
+  deploy:
+    name: Deploy databricks asset bundle
+    needs: validate
+    if: ${{ needs.validate.result == 'success' }}
+    runs-on: ubuntu-latest
+    continue-on-error: false
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Setup Databricks CLI
+        uses: databricks/setup-cli@main
+      - name: Ensure .py files are Databricks notebooks
+        shell: pwsh
+        run: |
+          Get-ChildItem -Path "${{ github.workspace }}" -Filter "*.py" -Recurse | ForEach-Object {
+            ("# Databricks notebook source`n" + (Get-Content $_.FullName -Raw)) | Set-Content $_.FullName
+          }
+      - name: Deploy bundle
+        run: databricks bundle deploy
