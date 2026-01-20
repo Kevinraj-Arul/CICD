@@ -11,10 +11,10 @@ targets:
   dev:
     mode: production
     workspace:
-      host: https://adb-7405611830519953.13.azuredatabricks.net
+      host: https://dbc-3c33e389-a9f2.cloud.databricks.com/
       # We always use /Users/vegash.p@diggibyte.com for all resources to make sure we only have a single copy.
-      root_path: /Users/vegash.p@diggibyte.com/.bundle/${bundle.name}/${bundle.target}
+      root_path: /Users/kevinraj.arul@diggibyte.com/.bundle
     run_as:
       # This runs as vegash.p@diggibyte.com in production. We could also use a service principal here,
       # see https://docs.databricks.com/dev-tools/bundles/permissions.html.
-      service_principal_name: "e4151fa7-20c7-43ce-880a-b0af1577b0f5"
+      user_name: "kevinraj.arul@diggibyte.com"
