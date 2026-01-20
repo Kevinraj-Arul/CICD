@@ -5,7 +5,7 @@ permissions:
   contents: read
 defaults:
   run:
-    working-directory: .
+    working-directory: CICD
 jobs:
   validate:
     name: Validate databricks asset bundle
