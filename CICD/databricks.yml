@@ -7,15 +7,8 @@ include:
   - resources/*/*.yml
 
 targets:
-  # The 'dev' target, for development purposes. This target is the default.
+# The 'prod' target, used for production deployment.
   dev:
-    mode: development
-    default: true
-    workspace:
-      host: https://adb-7405611830519953.13.azuredatabricks.net
-
-  # The 'prod' target, used for production deployment.
-  prod:
     mode: production
     workspace:
       host: https://adb-7405611830519953.13.azuredatabricks.net
@@ -24,4 +17,4 @@ targets:
     run_as:
       # This runs as vegash.p@diggibyte.com in production. We could also use a service principal here,
       # see https://docs.databricks.com/dev-tools/bundles/permissions.html.
-      user_name: vegash.p@diggibyte.com
+      service_principal_name: "e4151fa7-20c7-43ce-880a-b0af1577b0f5"
