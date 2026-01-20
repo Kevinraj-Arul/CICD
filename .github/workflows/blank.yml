@@ -12,9 +12,9 @@ jobs:
     name: Validate databricks asset bundle 
     runs-on: ubuntu-latest 
     env:
-      DATABRICKS_HOST: https://adb-7405616596195493.13.azuredatabricks.net/
-      DATABRICKS_TOKEN: dapi7627cb3513b08dea539b6347b38531f5
-      REPO_PATH: /Users/vegash.p@diggibyte.com/.bundle/
+      DATABRICKS_HOST: https://dbc-3c33e389-a9f2.cloud.databricks.com/
+      DATABRICKS_TOKEN: dapi73ec3cdf554cb9a35bad7e8376f36164
+      REPO_PATH: /Users/kevinraj.arul@diggibyte.com/.bundle/
 
     continue-on-error: false 
     steps:
@@ -38,9 +38,9 @@ jobs:
       - name: Validate bundle
         run: databricks bundle validate
         env:
-          DATABRICKS_HOST: https://adb-7405616596195493.13.azuredatabricks.net/
-          DATABRICKS_TOKEN: dapi7627cb3513b08dea539b6347b38531f5
-          REPO_PATH: /Users/vegash.p@diggibyte.com/.bundle/          
+          DATABRICKS_HOST: https://dbc-3c33e389-a9f2.cloud.databricks.com/
+          DATABRICKS_TOKEN: dapi73ec3cdf554cb9a35bad7e8376f36164
+          REPO_PATH: /Users/kevinraj.arul@diggibyte.com/.bundle/          
           
 
 
@@ -73,7 +73,7 @@ jobs:
       - name: Deploy bundle
         run: databricks bundle deploy
         env:
-          DATABRICKS_HOST: https://adb-7405616596195493.13.azuredatabricks.net/
-          DATABRICKS_TOKEN: dapi7627cb3513b08dea539b6347b38531f5
-          REPO_PATH: /Users/vegash.p@diggibyte.com/.bundle/
+          DATABRICKS_HOST: https://dbc-3c33e389-a9f2.cloud.databricks.com/
+          DATABRICKS_TOKEN: dapi73ec3cdf554cb9a35bad7e8376f36164
+          REPO_PATH: /Users/kevinraj.arul@diggibyte.com/.bundle/
 
