@@ -1,7 +1,9 @@
 name: sample-dev
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
 
   
 jobs:
