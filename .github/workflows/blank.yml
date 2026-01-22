@@ -7,7 +7,7 @@ on:
 
 jobs:
 # ==========================================================================
-# JOB 1: VALIDATE DATABRICKS ASSET BUNDLE
+# JOB 1: VALIDATE + EXECUTE NOTEBOOKS
 # ==========================================================================
   validate:
     name: Validate Databricks Asset Bundle
@@ -34,12 +34,17 @@ jobs:
             }
           }
 
+      # CONFIG VALIDATION
       - name: Validate Databricks bundle
         run: databricks bundle validate --target dev
 
+      # RUNTIME VALIDATION (THIS IS THE MISSING PART)
+      - name: Run notebook validation job
+        run: databricks jobs run-now --job-id 123456789
+
 
 # ==========================================================================
-# JOB 2: DEPLOY DATABRICKS ASSET BUNDLE
+# JOB 2: DEPLOY ONLY IF VALIDATION PASSES
 # ==========================================================================
   deploy:
     name: Deploy Databricks Asset Bundle
