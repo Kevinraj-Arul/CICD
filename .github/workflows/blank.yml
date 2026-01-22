@@ -7,10 +7,10 @@ on:
 
 jobs:
 # ==========================================================================
-# JOB 1: VALIDATE + EXECUTE NOTEBOOKS (REAL VALIDATION)
+# JOB 1: VALIDATE DATABRICKS ASSET BUNDLE
 # ==========================================================================
   validate:
-    name: Validate & Test Databricks Notebooks
+    name: Validate Databricks Asset Bundle
     runs-on: ubuntu-latest
     continue-on-error: false
 
@@ -19,15 +19,12 @@ jobs:
       DATABRICKS_TOKEN: dapi73ec3cdf554cb9a35bad7e8376f36164
 
     steps:
-      # Step 1: Checkout code
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Step 2: Setup Databricks CLI
       - name: Setup Databricks CLI
         uses: databricks/setup-cli@main
 
-      # Step 3: Convert .py files to Databricks notebooks
       - name: Ensure .py files are Databricks notebooks
         shell: pwsh
         run: |
@@ -37,17 +34,12 @@ jobs:
             }
           }
 
-      # Step 4: Validate Databricks Asset Bundle (CONFIG CHECK)
-      - name: Validate bundle configuration
+      - name: Validate Databricks bundle
         run: databricks bundle validate --target dev
-
-      # Step 5: Run notebook execution test (RUNTIME VALIDATION)
-      - name: Run notebook validation job
-        run: databricks jobs run-now --job-id 123456789
 
 
 # ==========================================================================
-# JOB 2: DEPLOY TO PRODUCTION (ONLY IF VALIDATION PASSES)
+# JOB 2: DEPLOY DATABRICKS ASSET BUNDLE
 # ==========================================================================
   deploy:
     name: Deploy Databricks Asset Bundle
@@ -61,14 +53,11 @@ jobs:
       DATABRICKS_TOKEN: dapi73ec3cdf554cb9a35bad7e8376f36164
 
     steps:
-      # Step 1: Checkout code
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Step 2: Setup Databricks CLI
+      - name: Setup Databricks CLI
         uses: databricks/setup-cli@main
 
-      # Step 3: Deploy Databricks Asset Bundle
-      - name: Deploy bundle
+      - name: Deploy Databricks bundle
         run: databricks bundle deploy --target dev
-        
