@@ -7,10 +7,10 @@ on:
 
 jobs:
 # ==========================================================================
-# JOB 1: VALIDATE BUNDLE + RUN NOTEBOOK (REAL VALIDATION)
+# JOB 1: VALIDATE + DEPLOY TO DEV
 # ==========================================================================
-  validate:
-    name: Validate Databricks Bundle & Run Notebook Validation
+  validate_and_deploy:
+    name: Validate Bundle & Deploy to Dev
     runs-on: ubuntu-latest
     continue-on-error: false
 
@@ -37,22 +37,21 @@ jobs:
             }
           }
 
-      # Step 4: Validate Databricks Asset Bundle (CONFIG VALIDATION)
+      # Step 4: Validate Databricks Asset Bundle (CONFIG CHECK)
       - name: Validate Databricks bundle
         run: databricks bundle validate --target dev
 
-      # Step 5: Run Databricks Job to EXECUTE notebooks (RUNTIME VALIDATION)
-      - name: Run notebook validation job
-        run: databricks jobs run-now 147678624435448
+      # Step 5: Deploy bundle to DEV
+      - name: Deploy Databricks bundle to Dev
+        run: databricks bundle deploy --target dev
 
 
 # ==========================================================================
-# JOB 2: DEPLOY ONLY IF VALIDATION PASSES
+# JOB 2: RUN DEV VALIDATION JOB (EXECUTION CHECK)
 # ==========================================================================
-  deploy:
-    name: Deploy Databricks Asset Bundle
-    needs: validate
-    if: needs.validate.result == 'success'
+  run_dev_validation_job:
+    name: Run Dev Notebook Validation Job
+    needs: validate_and_deploy
     runs-on: ubuntu-latest
     continue-on-error: false
 
@@ -61,14 +60,10 @@ jobs:
       DATABRICKS_TOKEN: dapi73ec3cdf554cb9a35bad7e8376f36164
 
     steps:
-      # Step 1: Checkout source code
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      # Step 2: Setup Databricks CLI
+      # Step 6: Setup Databricks CLI
       - name: Setup Databricks CLI
         uses: databricks/setup-cli@main
 
-      # Step 3: Deploy Databricks Asset Bundle
-      - name: Deploy Databricks bundle
-        run: databricks bundle deploy --target dev
+      # Step 7: Run DEV validation job (REAL EXECUTION)
+      - name: Run notebook validation job
+        run: databricks jobs run-now 542975920282104
