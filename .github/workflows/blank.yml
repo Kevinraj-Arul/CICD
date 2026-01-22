@@ -71,3 +71,4 @@ jobs:
       # Step 3: Deploy Databricks Asset Bundle
       - name: Deploy bundle
         run: databricks bundle deploy --target dev
+        
