@@ -7,10 +7,10 @@ on:
 
 jobs:
 # ==========================================================================
-# JOB 1: VALIDATE + EXECUTE NOTEBOOKS
+# JOB 1: VALIDATE BUNDLE + RUN NOTEBOOK (REAL VALIDATION)
 # ==========================================================================
   validate:
-    name: Validate Databricks Bundle & Run Notebook Tests
+    name: Validate Databricks Bundle & Run Notebook Validation
     runs-on: ubuntu-latest
     continue-on-error: false
 
@@ -41,8 +41,7 @@ jobs:
       - name: Validate Databricks bundle
         run: databricks bundle validate --target dev
 
-      # Step 5: Run Databricks job to execute notebooks (RUNTIME VALIDATION)
-      # IMPORTANT: Replace 123456789 with your real Databricks Job ID
+      # Step 5: Run Databricks Job to EXECUTE notebooks (RUNTIME VALIDATION)
       - name: Run notebook validation job
         run: databricks jobs run-now 542975920282104
 
