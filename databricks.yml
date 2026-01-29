@@ -10,8 +10,11 @@ targets:
 # The 'prod' target, used for production deployment.
   dev:
     mode: production
+     # We always use /Users/vegash.p@diggibyte.com for all resources to make sure we only have a single copy.
     workspace:
       host: https://dbc-3c33e389-a9f2.cloud.databricks.com/
+      # This runs as vegash.p@diggibyte.com in production. We could also use a service principal here,
+      # see https://docs.databricks.com/dev-tools/bundles/permissions.html.
       root_path: /Users/kevinraj.arul@diggibyte.com/.bundle
     run_as:
       user_name: "kevinraj.arul@diggibyte.com"
